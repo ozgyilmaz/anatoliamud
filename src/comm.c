@@ -157,6 +157,17 @@ void    bust_a_prompt           args( ( CHAR_DATA *ch ) );
 void	exit_function( );
 int 	log_area_popularity(void);
 
+// prool begin
+// prool here: http://mud.kharkov.org proolix@gmail.com
+int isprool(char c) // prool's modif for isprint
+{
+if ((c<32)&&(c>=0)) return 0;
+if (c==-1) return 0;
+if (c==-3) return 0;
+return 1;
+}
+// prool end
+
 int main( int argc, char **argv )
 {
     int i, fMatch;
@@ -934,7 +945,8 @@ void read_from_buffer( DESCRIPTOR_DATA *d )
 
 	if ( d->inbuf[i] == '\b' && k > 0 )
 	    --k;
-	else if ( isascii(d->inbuf[i]) && isprint(d->inbuf[i]) )
+	//else if ( isascii(d->inbuf[i]) && isprint(d->inbuf[i]) )
+	else if ( isprool(d->inbuf[i]) ) // prool: adaptation for UTF-8 (f.e. cyrillic, chinese, etc)
 	    d->incomm[k++] = d->inbuf[i];
     }
 
